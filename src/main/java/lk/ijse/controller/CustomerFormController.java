@@ -78,6 +78,7 @@ public class CustomerFormController {
         if (isSaved){
             setTable();
             setCellValueFactory();
+            tblCustomer.refresh();
             new Alert(Alert.AlertType.CONFIRMATION,"Customer save successfully").show();
         } else {
             new Alert(Alert.AlertType.ERROR,"Customer save unsuccessfully").show();
@@ -89,6 +90,7 @@ public class CustomerFormController {
         if (isUpdated){
             setTable();
             setCellValueFactory();
+            tblCustomer.refresh();
             new Alert(Alert.AlertType.CONFIRMATION,"Customer update successfully").show();
         } else {
             new Alert(Alert.AlertType.ERROR,"Customer update unsuccessfully").show();
@@ -100,6 +102,7 @@ public class CustomerFormController {
         if (isDeleted){
             setTable();
             setCellValueFactory();
+            tblCustomer.refresh();
             new Alert(Alert.AlertType.CONFIRMATION,"Customer delete successfully").show();
         } else {
             new Alert(Alert.AlertType.ERROR,"Customer delete unsuccessfully").show();
