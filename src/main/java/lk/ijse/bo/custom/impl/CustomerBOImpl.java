@@ -6,6 +6,9 @@ import lk.ijse.dao.custom.impl.CustomerDAOImpl;
 import lk.ijse.dto.CustomerDto;
 import lk.ijse.entity.Customer;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CustomerBOImpl implements CustomerBO {
     CustomerDAO customerDAO = new CustomerDAOImpl();
     @Override
@@ -15,16 +18,26 @@ public class CustomerBOImpl implements CustomerBO {
 
     @Override
     public boolean update(CustomerDto customerDto) {
-        return false;
+        return customerDAO.update(new Customer(customerDto.getId(),customerDto.getName(),customerDto.getAddress(),customerDto.getTel(),customerDto.getEmail()));
     }
 
     @Override
-    public boolean delete(String value) {
-        return false;
+    public boolean delete(CustomerDto customerDto) {
+        return customerDAO.delete(new Customer(customerDto.getId(),customerDto.getName(),customerDto.getAddress(),customerDto.getTel(),customerDto.getEmail()));
     }
 
     @Override
     public CustomerDto get(String value) {
         return null;
+    }
+
+    @Override
+    public List<CustomerDto> getAll() {
+        List<CustomerDto> customerDtos = new ArrayList<>();
+        List<Customer> all = customerDAO.getAll();
+        for (Customer customer : all){
+            customerDtos.add(new CustomerDto(customer.getId(),customer.getName(),customer.getAddress(),customer.getTel(),customer.getEmail()));
+        }
+        return customerDtos;
     }
 }

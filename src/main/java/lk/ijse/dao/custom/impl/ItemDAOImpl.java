@@ -3,6 +3,8 @@ package lk.ijse.dao.custom.impl;
 import lk.ijse.dao.custom.ItemDAO;
 import lk.ijse.entity.Item;
 
+import java.util.List;
+
 public class ItemDAOImpl implements ItemDAO {
     @Override
     public boolean save(Item object) {
@@ -15,12 +17,17 @@ public class ItemDAOImpl implements ItemDAO {
     }
 
     @Override
-    public boolean delete(String value) {
+    public boolean delete(Item value) {
         return false;
     }
 
     @Override
     public Item get(String value) {
         return null;
+    }
+
+    @Override
+    public List<Item> getAll() {
+        return List.of();
     }
 }

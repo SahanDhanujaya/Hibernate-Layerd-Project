@@ -3,6 +3,8 @@ package lk.ijse.dao.custom.impl;
 import lk.ijse.dao.custom.OrderDetailDAO;
 import lk.ijse.entity.OrderDetails;
 
+import java.util.List;
+
 public class OrderDetailDAOImpl implements OrderDetailDAO {
     @Override
     public boolean save(OrderDetails object) {
@@ -15,12 +17,17 @@ public class OrderDetailDAOImpl implements OrderDetailDAO {
     }
 
     @Override
-    public boolean delete(String value) {
+    public boolean delete(OrderDetails value) {
         return false;
     }
 
     @Override
     public OrderDetails get(String value) {
         return null;
+    }
+
+    @Override
+    public List<OrderDetails> getAll() {
+        return List.of();
     }
 }
