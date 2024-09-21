@@ -5,8 +5,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.CustomerBO;
-import lk.ijse.bo.custom.impl.CustomerBOImpl;
 import lk.ijse.dto.CustomerDto;
 import lk.ijse.entity.CustomerTm;
 
@@ -28,11 +28,24 @@ public class CustomerFormController {
     public TableColumn<?,?> clmAddress;
     public TableColumn<?,?> clmEmail;
     public TableColumn<?,?> clmContact;
-    CustomerBO customerBO = new CustomerBOImpl();
+    CustomerBO customerBO = (CustomerBO) BOFactory.getBOFactory().getBOType(BOFactory.BOType.CUSTOMER);
 
     public void initialize(){
         setTable();
         setCellValueFactory();
+        selectTableRow();
+    }
+
+    private void selectTableRow() {
+        tblCustomer.setOnMouseClicked(event -> {
+            int focusedIndex = tblCustomer.getFocusModel().getFocusedIndex();
+            CustomerTm customerTm = tblCustomer.getItems().get(focusedIndex);
+            txtId.setText(customerTm.getId());
+            txtName.setText(customerTm.getName());
+            txtAddress.setText(customerTm.getAddress());
+            txtEmail.setText(customerTm.getEmail());
+            txtContact.setText(String.valueOf(customerTm.getTel()));
+        });
     }
 
     private void setCellValueFactory() {

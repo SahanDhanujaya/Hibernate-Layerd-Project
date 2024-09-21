@@ -49,6 +49,8 @@ public class CustomerDAOImpl implements CustomerDAO {
     public List<Customer> getAll() {
         Session session = FactoryConfiguration.getInstance().getSession();
         Transaction transaction = session.beginTransaction();
+//        List<Customer> resultList1 = new ArrayList<>();
+//        session.find(Customer.class,Hha);
         NativeQuery query = session.createNativeQuery("SELECT * FROM Customer");
         query.addEntity(Customer.class);
         List<Customer> resultList = query.getResultList();

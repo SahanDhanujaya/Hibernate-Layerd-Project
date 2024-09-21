@@ -1,10 +1,11 @@
 package lk.ijse.bo.custom;
 
+import lk.ijse.bo.SuperBO;
 import lk.ijse.dto.CustomerDto;
 
 import java.util.List;
 
-public interface CustomerBO {
+public interface CustomerBO extends SuperBO {
     public boolean save(CustomerDto customerDto);
     public boolean update(CustomerDto customerDto);
     public boolean delete(CustomerDto object);
