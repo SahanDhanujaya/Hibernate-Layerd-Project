@@ -14,4 +14,6 @@ public interface CustomerBO extends SuperBO {
     List<CustomerDto> getAll();
 
     List<String> getIds();
+
+    String getCurrentId();
 }

@@ -70,4 +70,15 @@ public class CustomerDAOImpl implements CustomerDAO {
         session.close();
         return list;
     }
+
+    @Override
+    public String getCurrentId() {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        Transaction transaction = session.beginTransaction();
+        Query query = session.createQuery("select id from Customer order by id desc limit 1");
+        String id = (String) query.uniqueResult();
+        transaction.commit();
+        session.close();
+        return id;
+    }
 }

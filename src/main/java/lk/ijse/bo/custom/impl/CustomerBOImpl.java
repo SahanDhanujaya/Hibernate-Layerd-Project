@@ -44,4 +44,9 @@ public class CustomerBOImpl implements CustomerBO {
     public List<String> getIds() {
         return customerDAO.getIds();
     }
+
+    @Override
+    public String getCurrentId() {
+        return customerDAO.getCurrentId();
+    }
 }

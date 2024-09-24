@@ -73,7 +73,6 @@ public class ItemDAOImpl implements ItemDAO {
         Transaction transaction = session.beginTransaction();
         Query query = session.createQuery("select itemCode from Item order by itemCode desc limit 1");
         String id = (String) query.uniqueResult();
-        System.out.println(id);
         transaction.commit();
         session.close();
         return id;

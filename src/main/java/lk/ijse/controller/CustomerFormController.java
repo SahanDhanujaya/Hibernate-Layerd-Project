@@ -34,6 +34,33 @@ public class CustomerFormController {
         setTable();
         setCellValueFactory();
         selectTableRow();
+        generateCustomerId();
+    }
+    void clearTextFields(){
+        txtId.clear();
+        txtName.clear();
+        txtAddress.clear();
+        txtEmail.clear();
+        txtContact.clear();
+    }
+    private String generateCustomerId() {
+        try {
+            String currentId = customerBO.getCurrentId();
+            if (currentId != null) {
+                String[] split = currentId.split("C00");
+                int idNum = Integer.parseInt(split[1]);
+                String availableId = "C00" + ++idNum;
+                txtId.setText(availableId);
+                return availableId;
+            } else {
+                txtId.setText("C001");
+                return "C001";
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     private void selectTableRow() {
@@ -89,9 +116,11 @@ public class CustomerFormController {
     public void btnSaveOnAction(ActionEvent actionEvent) {
         boolean isSaved = customerBO.save(new CustomerDto(txtId.getText(), txtName.getText(), txtAddress.getText(), Integer.parseInt(txtContact.getText()), txtEmail.getText()));
         if (isSaved){
+            clearTextFields();
             setTable();
             setCellValueFactory();
             tblCustomer.refresh();
+            txtId.setText(generateCustomerId());
             new Alert(Alert.AlertType.CONFIRMATION,"Customer save successfully").show();
         } else {
             new Alert(Alert.AlertType.ERROR,"Customer save unsuccessfully").show();
@@ -101,9 +130,11 @@ public class CustomerFormController {
     public void btnUpdateOnAction(ActionEvent actionEvent) {
         boolean isUpdated = customerBO.update(new CustomerDto(txtId.getText(), txtName.getText(), txtAddress.getText(), Integer.parseInt(txtContact.getText()), txtEmail.getText()));
         if (isUpdated){
+            clearTextFields();
             setTable();
             setCellValueFactory();
             tblCustomer.refresh();
+            txtId.setText(generateCustomerId());
             new Alert(Alert.AlertType.CONFIRMATION,"Customer update successfully").show();
         } else {
             new Alert(Alert.AlertType.ERROR,"Customer update unsuccessfully").show();
@@ -113,9 +144,11 @@ public class CustomerFormController {
     public void btnDeleteOnAction(ActionEvent actionEvent) {
         boolean isDeleted = customerBO.delete(new CustomerDto(txtId.getText(), txtName.getText(), txtAddress.getText(), Integer.parseInt(txtContact.getText()), txtEmail.getText()));
         if (isDeleted){
+            clearTextFields();
             setTable();
             setCellValueFactory();
             tblCustomer.refresh();
+            txtId.setText(generateCustomerId());
             new Alert(Alert.AlertType.CONFIRMATION,"Customer delete successfully").show();
         } else {
             new Alert(Alert.AlertType.ERROR,"Customer delete unsuccessfully").show();
