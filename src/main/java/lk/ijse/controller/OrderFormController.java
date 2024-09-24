@@ -1,19 +1,27 @@
 package lk.ijse.controller;
 
+import com.jfoenix.controls.JFXButton;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.CustomerBO;
 import lk.ijse.bo.custom.ItemBO;
+import lk.ijse.entity.tm.OrderTm;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrderFormController {
-
+    @FXML
+    public TextField txtName;
+    public TableColumn clmId;
+    public TextField txtDate;
     @FXML
     private TableColumn<?, ?> clmItem;
 
@@ -45,7 +53,7 @@ public class OrderFormController {
     private AnchorPane pane;
 
     @FXML
-    private TableView<?> tblCart;
+    private TableView<OrderTm> tblCart;
 
     @FXML
     private TextField txtPrice;
@@ -58,6 +66,12 @@ public class OrderFormController {
     public void initialize(){
         setComboCustomer();
         setComboItem();
+        setDate();
+
+    }
+
+    private void setDate() {
+        txtDate.setText(String.valueOf(LocalDate.now()));
     }
 
     private void setComboItem() {
@@ -80,7 +94,27 @@ public class OrderFormController {
 
     @FXML
     void btnAddToCartOnAction(ActionEvent event) {
+        OrderTm orderTm = new OrderTm(String.valueOf(cmbItemId.getValue()),txtName.getText(),Double.parseDouble(txtPrice.getText()),Integer.parseInt(txtQty.getText()),new JFXButton("remove"));
+        setTable(orderTm);
+        setCellValueFactory();
+    }
 
+    private void setCellValueFactory() {
+        clmId.setCellValueFactory(new PropertyValueFactory<>("itemCode"));
+        clmItem.setCellValueFactory(new PropertyValueFactory<>("item"));
+        clmPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+        clmQty.setCellValueFactory(new PropertyValueFactory<>("qty"));
+        clmRemove.setCellValueFactory(new PropertyValueFactory<>("button"));
+    }
+
+    private void setTable(OrderTm order) {
+        ObservableList<OrderTm> obList = FXCollections.observableArrayList();
+        List<OrderTm> orderTms = new ArrayList<>();
+        orderTms.add(order);
+        for (OrderTm orderTm : orderTms) {
+            obList.add(new OrderTm(orderTm.getItemCode(), orderTm.getItem(), orderTm.getPrice(), orderTm.getQty(), orderTm.getButton()));
+        }
+        tblCart.setItems(obList);
     }
 
     @FXML
@@ -103,4 +137,6 @@ public class OrderFormController {
 
     }
 
+    public void txtItemOnAction(ActionEvent actionEvent) {
+    }
 }

@@ -1,20 +1,17 @@
-package lk.ijse.entity;
+package lk.ijse.entity.tm;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import com.jfoenix.controls.JFXButton;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
-@Entity
-public class Item {
-    @Id
+public class OrderTm {
     private String itemCode;
-    private String name;
+    private String item;
     private double price;
     private int qty;
-
+    private JFXButton button;
 }
