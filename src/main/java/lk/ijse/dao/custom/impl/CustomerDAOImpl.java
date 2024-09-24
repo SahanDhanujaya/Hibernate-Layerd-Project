@@ -6,6 +6,7 @@ import lk.ijse.entity.Customer;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.NativeQuery;
+import org.hibernate.query.Query;
 
 import java.util.List;
 
@@ -41,7 +42,7 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     @Override
-    public Customer get(String value) {
+    public Customer get(Customer object) {
         return null;
     }
 
@@ -57,5 +58,16 @@ public class CustomerDAOImpl implements CustomerDAO {
         transaction.commit();
         session.close();
         return resultList;
+    }
+
+    @Override
+    public List<String> getIds() {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        Transaction transaction = session.beginTransaction();
+        Query query = session.createQuery(" select id from Customer");
+        List<String> list = query.getResultList();
+        transaction.commit();
+        session.close();
+        return list;
     }
 }

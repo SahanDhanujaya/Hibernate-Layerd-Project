@@ -22,7 +22,7 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    public Order get(String value) {
+    public Order get(Order value) {
         return null;
     }
 

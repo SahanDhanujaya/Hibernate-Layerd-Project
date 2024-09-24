@@ -6,6 +6,6 @@ public interface CrudDAO<T> extends SuperDAO{
     public boolean save(T object);
     public boolean update(T object);
     public boolean delete(T object);
-    public T get(String value);
+    public T get(T object);
     List<T> getAll();
 }

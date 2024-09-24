@@ -22,7 +22,7 @@ public class OrderDetailDAOImpl implements OrderDetailDAO {
     }
 
     @Override
-    public OrderDetails get(String value) {
+    public OrderDetails get(OrderDetails value) {
         return null;
     }
 

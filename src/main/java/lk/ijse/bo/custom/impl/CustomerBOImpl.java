@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerBOImpl implements CustomerBO {
-    CustomerDAO customerDAO = (CustomerDAO) DAOFactory.getDaoFactory().getBOType(DAOFactory.BOType.CUSTOMER);
+    CustomerDAO customerDAO = (CustomerDAO) DAOFactory.getDaoFactory().getDAOType(DAOFactory.DAOType.CUSTOMER);
     @Override
     public boolean save(CustomerDto customerDto) {
        return customerDAO.save(new Customer(customerDto.getId(),customerDto.getName(),customerDto.getAddress(),customerDto.getTel(),customerDto.getEmail()));
@@ -39,5 +39,9 @@ public class CustomerBOImpl implements CustomerBO {
             customerDtos.add(new CustomerDto(customer.getId(),customer.getName(),customer.getAddress(),customer.getTel(),customer.getEmail()));
         }
         return customerDtos;
+    }
+    @Override
+    public List<String> getIds() {
+        return customerDAO.getIds();
     }
 }

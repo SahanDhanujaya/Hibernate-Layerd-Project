@@ -9,13 +9,13 @@ public class DAOFactory {
     private static DAOFactory daoFactory;
     private DAOFactory(){}
 
-    public enum BOType{
+    public enum DAOType{
         CUSTOMER,ITEM,ORDER,ORDER_DETAIL
     }
     public static DAOFactory getDaoFactory(){
         return daoFactory == null ? daoFactory = new DAOFactory() : daoFactory;
     }
-    public SuperDAO getBOType(BOType boType){
+    public SuperDAO getDAOType(DAOType boType){
         switch (boType){
             case CUSTOMER :
                 return new CustomerDAOImpl();
