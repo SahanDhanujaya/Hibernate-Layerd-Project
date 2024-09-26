@@ -11,6 +11,7 @@ import javafx.scene.layout.AnchorPane;
 import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.CustomerBO;
 import lk.ijse.bo.custom.ItemBO;
+import lk.ijse.dto.ItemDto;
 import lk.ijse.entity.tm.OrderTm;
 
 import java.time.LocalDate;
@@ -66,7 +67,16 @@ public class OrderFormController {
         setComboCustomer();
         setComboItem();
         setDate();
+        lblNetTotal.setText("00.0");
 
+
+    }
+
+    private void setDetails(String value) {
+        ItemDto itemDto = itemBO.get(value);
+        txtName.setText(itemDto.getName());
+        txtPrice.setText(String.valueOf(itemDto.getPrice()));
+        lblQty.setText(String.valueOf(itemDto.getQty()));
     }
 
     private void setDate() {
@@ -93,17 +103,43 @@ public class OrderFormController {
 
     @FXML
     void btnAddToCartOnAction(ActionEvent event) {
-        System.out.println("Hiiiiiii");
         OrderTm orderTm = new OrderTm(String.valueOf(cmbItemId.getValue()),txtName.getText(),Double.parseDouble(txtPrice.getText()),Integer.parseInt(txtQty.getText()),new JFXButton("remove"));
-        ObservableList<OrderTm> orderTms = FXCollections.observableArrayList();
+        ObservableList<OrderTm> obList = FXCollections.observableArrayList();
         int size = tblCart.getItems().size();
         for (int i = 0;i < size; i++){
             OrderTm orderTm1 = tblCart.getItems().get(i);
-            orderTms.add(orderTm1);
+            obList.add(orderTm1);
+            if (orderTm.getItemCode().equals(clmId.getCellData(i))){
+                int qty = orderTm1.getQty() + Integer.parseInt(txtQty.getText()) ;
+                orderTm1.setQty(qty);
+                obList.add(orderTm1);
+                setCellValueFactory();
+                tblCart.refresh();
+                calculateNetTotal();
+                return;
+            }
         }
-        orderTms.add(orderTm);
-        tblCart.setItems(orderTms);
+        obList.add(orderTm);
+        tblCart.setItems(obList);
         setCellValueFactory();
+        calculateNetTotal();
+    }
+
+    private void clearTextFields() {
+        txtPrice.clear();
+        txtName.clear();
+        txtQty.clear();
+        lblQty.setText("");
+    }
+
+    private void calculateNetTotal() {
+        double total = 0;
+        for (int i = 0 ; i<tblCart.getItems().size() ; i++){
+            int qty = (int) clmQty.getCellData(i);
+            double price = (double) clmPrice.getCellData(i);
+            total += qty*price;
+        }
+        lblNetTotal.setText(String.valueOf(total));
     }
 
     private void setCellValueFactory() {
@@ -114,14 +150,6 @@ public class OrderFormController {
         clmRemove.setCellValueFactory(new PropertyValueFactory<>("button"));
     }
 
-    private void setTable(List<OrderTm> order) {
-        ObservableList<OrderTm> obList = FXCollections.observableArrayList();
-        for (OrderTm orderTm : order) {
-            obList.add(new OrderTm(orderTm.getItemCode(), orderTm.getItem(), orderTm.getPrice(), orderTm.getQty(), orderTm.getButton()));
-
-        }
-        tblCart.setItems(obList);
-    }
 
     @FXML
     void btnPayOnAction(ActionEvent event) {
@@ -130,7 +158,7 @@ public class OrderFormController {
 
     @FXML
     void cmbIdOnAction(ActionEvent event) {
-
+        setDetails(cmbItemId.getValue());
     }
 
     @FXML
@@ -140,6 +168,10 @@ public class OrderFormController {
 
     @FXML
     void txtQtyOnAction(ActionEvent event) {
+        int currentQty = Integer.parseInt(lblQty.getText());
+        int availableQty = currentQty - Integer.parseInt(txtQty.getText());
+        lblQty.setText(String.valueOf(availableQty));
+        btnAddToCartOnAction(event);
 
     }
 

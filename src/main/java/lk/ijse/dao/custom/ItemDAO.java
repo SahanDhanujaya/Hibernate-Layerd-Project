@@ -9,4 +9,6 @@ public interface ItemDAO extends CrudDAO<Item> {
     List<String> getIds();
 
     String getCurrentId();
+
+    Item getObject(String value);
 }

@@ -77,4 +77,17 @@ public class ItemDAOImpl implements ItemDAO {
         session.close();
         return id;
     }
+
+    @Override
+    public Item getObject(String value) {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        Transaction transaction = session.beginTransaction();
+        Query query = session.createQuery("from Item where itemCode = ?1");
+        query.setParameter(1,value);
+        Item item = (Item) query.uniqueResult();
+        System.out.println(item);
+        transaction.commit();
+        session.close();
+        return item;
+    }
 }
