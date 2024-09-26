@@ -14,7 +14,6 @@ import lk.ijse.bo.custom.ItemBO;
 import lk.ijse.entity.tm.OrderTm;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 public class OrderFormController {
@@ -94,8 +93,16 @@ public class OrderFormController {
 
     @FXML
     void btnAddToCartOnAction(ActionEvent event) {
+        System.out.println("Hiiiiiii");
         OrderTm orderTm = new OrderTm(String.valueOf(cmbItemId.getValue()),txtName.getText(),Double.parseDouble(txtPrice.getText()),Integer.parseInt(txtQty.getText()),new JFXButton("remove"));
-        setTable(orderTm);
+        ObservableList<OrderTm> orderTms = FXCollections.observableArrayList();
+        int size = tblCart.getItems().size();
+        for (int i = 0;i < size; i++){
+            OrderTm orderTm1 = tblCart.getItems().get(i);
+            orderTms.add(orderTm1);
+        }
+        orderTms.add(orderTm);
+        tblCart.setItems(orderTms);
         setCellValueFactory();
     }
 
@@ -107,12 +114,11 @@ public class OrderFormController {
         clmRemove.setCellValueFactory(new PropertyValueFactory<>("button"));
     }
 
-    private void setTable(OrderTm order) {
+    private void setTable(List<OrderTm> order) {
         ObservableList<OrderTm> obList = FXCollections.observableArrayList();
-        List<OrderTm> orderTms = new ArrayList<>();
-        orderTms.add(order);
-        for (OrderTm orderTm : orderTms) {
+        for (OrderTm orderTm : order) {
             obList.add(new OrderTm(orderTm.getItemCode(), orderTm.getItem(), orderTm.getPrice(), orderTm.getQty(), orderTm.getButton()));
+
         }
         tblCart.setItems(obList);
     }
