@@ -1,33 +1,48 @@
 package lk.ijse.dao.custom.impl;
 
+import lk.ijse.config.FactoryConfiguration;
 import lk.ijse.dao.custom.OrderDAO;
-import lk.ijse.entity.Order;
+import lk.ijse.entity.Orders;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import java.util.List;
 
 public class OrderDAOImpl implements OrderDAO {
     @Override
-    public boolean save(Order object) {
+    public boolean save(Orders object) {
         return false;
     }
 
     @Override
-    public boolean update(Order object) {
+    public boolean update(Orders object) {
         return false;
     }
 
     @Override
-    public boolean delete(Order value) {
+    public boolean delete(Orders value) {
         return false;
     }
 
     @Override
-    public Order get(Order value) {
+    public Orders get(Orders value) {
         return null;
     }
 
     @Override
-    public List<Order> getAll() {
+    public List<Orders> getAll() {
         return List.of();
+    }
+
+    @Override
+    public String getCurrentId() {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        Transaction transaction = session.beginTransaction();
+        Query query = session.createQuery("select orderId from Orders order by orderId desc limit 1");
+        String id = (String) query.uniqueResult();
+        transaction.commit();
+        session.close();
+        return id;
     }
 }

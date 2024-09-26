@@ -11,10 +11,16 @@ import javafx.scene.layout.AnchorPane;
 import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.CustomerBO;
 import lk.ijse.bo.custom.ItemBO;
+import lk.ijse.bo.custom.OrderBO;
+import lk.ijse.bo.custom.OrderDetailBO;
 import lk.ijse.dto.ItemDto;
+import lk.ijse.entity.OrderDetailId;
+import lk.ijse.entity.PlaceOrder;
 import lk.ijse.entity.tm.OrderTm;
 
+import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrderFormController {
@@ -63,6 +69,8 @@ public class OrderFormController {
 
     CustomerBO customerBO = (CustomerBO) BOFactory.getBOFactory().getBOType(BOFactory.BOType.CUSTOMER);
     ItemBO itemBO = (ItemBO) BOFactory.getBOFactory().getBOType(BOFactory.BOType.ITEM);
+    OrderBO orderBO = (OrderBO) BOFactory.getBOFactory().getBOType(BOFactory.BOType.ORDER);
+    OrderDetailBO orderDetailBO = (OrderDetailBO) BOFactory.getBOFactory().getBOType(BOFactory.BOType.ORDER_DETAIL);
     public void initialize(){
         setComboCustomer();
         setComboItem();
@@ -153,7 +161,40 @@ public class OrderFormController {
 
     @FXML
     void btnPayOnAction(ActionEvent event) {
+        String currentId = orderBO.getCurrentId();
+        String oId = createNextId(currentId);
+        String current = orderDetailBO.getCurrentId();
+        String odId = createNextOrderDetailId(current);
+        Date date = Date.valueOf(txtDate.getText());
+        String itemId = cmbItemId.getValue();
+        List<OrderTm> orderTmList = new ArrayList<>();
+        for (int i = 0 ;i<tblCart.getItems().size();i++){
+            OrderTm orderTm = tblCart.getItems().get(i);
+            orderTmList.add(orderTm);
+        }
+        orderBO.transaction(oId,odId,date,itemId);
+        new OrderDetailId();
+        new PlaceOrder();
 
+
+    }
+
+    private String createNextOrderDetailId(String current) {
+        if (current != null){
+            String[] split = current.split("OD");
+            int idNum = Integer.parseInt(split[1]);
+            return split[0] + ++idNum;
+        }
+        return "OD1";
+    }
+
+    private String createNextId(String currentId) {
+        if (currentId != null){
+            String[] split = currentId.split("O");
+            int idNum = Integer.parseInt(split[1]);
+            return split[0] + ++idNum;
+        }
+        return "O1";
     }
 
     @FXML

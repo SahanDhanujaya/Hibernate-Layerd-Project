@@ -8,4 +8,6 @@ public interface OrderDetailBO extends SuperBO {
     public boolean update(OrderDetailsDto orderDetailsDto);
     public boolean delete(String value);
     public OrderDetailsDto get(String value);
+    String getCurrentId();
+
 }

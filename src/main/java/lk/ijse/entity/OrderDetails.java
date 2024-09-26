@@ -1,18 +1,25 @@
 package lk.ijse.entity;
 
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Entity
+
 public class OrderDetails {
-    @OneToMany
-    private List<Order> orders;
-    @OneToMany
-    private List<Item> items;
+    @EmbeddedId
+    private OrderDetailId orderDetailId;
+    @ManyToOne
+    @JoinColumn(name = "oId")
+    private Orders order;
+    @ManyToOne
+    @JoinColumn(name = "iId")
+    private Item item;
 }
