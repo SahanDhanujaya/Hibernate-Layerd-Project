@@ -8,7 +8,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.CustomerBO;
 import lk.ijse.dto.CustomerDto;
-import lk.ijse.entity.CustomerTm;
+import lk.ijse.entity.tm.CustomerTm;
 
 import java.util.List;
 

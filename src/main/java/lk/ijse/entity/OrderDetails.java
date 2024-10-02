@@ -1,9 +1,6 @@
 package lk.ijse.entity;
 
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,8 +11,9 @@ import lombok.NoArgsConstructor;
 @Entity
 
 public class OrderDetails {
-    @EmbeddedId
-    private OrderDetailId orderDetailId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     @ManyToOne
     @JoinColumn(name = "oId")
     private Orders order;

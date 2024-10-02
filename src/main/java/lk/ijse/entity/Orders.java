@@ -1,8 +1,6 @@
 package lk.ijse.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,9 +14,10 @@ import java.util.List;
 @Entity
 public class Orders {
     @Id
-    private String orderId;
+    private String id;
     private Date date;
     @OneToMany(mappedBy = "order")
     private List<OrderDetails> orderDetails;
-
- }
+    @ManyToOne
+    private Customer customer;
+}

@@ -18,7 +18,7 @@ public class CustomerBOImpl implements CustomerBO {
 
     @Override
     public boolean update(CustomerDto customerDto) {
-        return customerDAO.update(new Customer(customerDto.getId(),customerDto.getName(),customerDto.getAddress(),customerDto.getTel(),customerDto.getEmail()));
+        return customerDAO.update( new Customer(customerDto.getId(),customerDto.getName(),customerDto.getAddress(),customerDto.getTel(),customerDto.getEmail()));
     }
 
     @Override
@@ -28,7 +28,8 @@ public class CustomerBOImpl implements CustomerBO {
 
     @Override
     public CustomerDto get(String value) {
-        return null;
+        Customer object = customerDAO.getObject(value);
+        return new CustomerDto(object.getId(),object.getName(),object.getAddress(),object.getTel(),object.getEmail());
     }
 
     @Override

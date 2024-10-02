@@ -10,6 +10,7 @@ import org.hibernate.query.Query;
 import java.util.List;
 
 public class OrderDAOImpl implements OrderDAO {
+
     @Override
     public boolean save(Orders object) {
         return false;
@@ -19,6 +20,7 @@ public class OrderDAOImpl implements OrderDAO {
     public boolean update(Orders object) {
         return false;
     }
+
 
     @Override
     public boolean delete(Orders value) {
@@ -39,10 +41,15 @@ public class OrderDAOImpl implements OrderDAO {
     public String getCurrentId() {
         Session session = FactoryConfiguration.getInstance().getSession();
         Transaction transaction = session.beginTransaction();
-        Query query = session.createQuery("select orderId from Orders order by orderId desc limit 1");
+        Query query = session.createQuery("select id from Orders order by id desc limit 1");
         String id = (String) query.uniqueResult();
         transaction.commit();
         session.close();
         return id;
+    }
+    @Override
+    public boolean save(Orders orders1, Session session) {
+        session.save(orders1);
+        return true;
     }
 }

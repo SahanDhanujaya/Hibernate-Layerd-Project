@@ -14,11 +14,8 @@ import lk.ijse.bo.custom.ItemBO;
 import lk.ijse.bo.custom.OrderBO;
 import lk.ijse.bo.custom.OrderDetailBO;
 import lk.ijse.dto.ItemDto;
-import lk.ijse.entity.OrderDetailId;
-import lk.ijse.entity.PlaceOrder;
 import lk.ijse.entity.tm.OrderTm;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -76,7 +73,7 @@ public class OrderFormController {
         setComboItem();
         setDate();
         lblNetTotal.setText("00.0");
-
+        lblQty.setText("000");
 
     }
 
@@ -111,14 +108,14 @@ public class OrderFormController {
 
     @FXML
     void btnAddToCartOnAction(ActionEvent event) {
-        OrderTm orderTm = new OrderTm(String.valueOf(cmbItemId.getValue()),txtName.getText(),Double.parseDouble(txtPrice.getText()),Integer.parseInt(txtQty.getText()),new JFXButton("remove"));
+        OrderTm orderTm = new OrderTm(String.valueOf(cmbItemId.getValue()), txtName.getText(), Double.parseDouble(txtPrice.getText()), Integer.parseInt(txtQty.getText()), new JFXButton("remove"));
         ObservableList<OrderTm> obList = FXCollections.observableArrayList();
         int size = tblCart.getItems().size();
-        for (int i = 0;i < size; i++){
+        for (int i = 0; i < size; i++) {
             OrderTm orderTm1 = tblCart.getItems().get(i);
             obList.add(orderTm1);
-            if (orderTm.getItemCode().equals(clmId.getCellData(i))){
-                int qty = orderTm1.getQty() + Integer.parseInt(txtQty.getText()) ;
+            if (orderTm.getItemCode().equals(clmId.getCellData(i))) {
+                int qty = orderTm1.getQty() + Integer.parseInt(txtQty.getText());
                 orderTm1.setQty(qty);
                 obList.add(orderTm1);
                 setCellValueFactory();
@@ -131,6 +128,7 @@ public class OrderFormController {
         tblCart.setItems(obList);
         setCellValueFactory();
         calculateNetTotal();
+
     }
 
     private void clearTextFields() {
@@ -161,31 +159,15 @@ public class OrderFormController {
 
     @FXML
     void btnPayOnAction(ActionEvent event) {
-        String currentId = orderBO.getCurrentId();
-        String oId = createNextId(currentId);
-        String current = orderDetailBO.getCurrentId();
-        String odId = createNextOrderDetailId(current);
-        Date date = Date.valueOf(txtDate.getText());
-        String itemId = cmbItemId.getValue();
-        List<OrderTm> orderTmList = new ArrayList<>();
-        for (int i = 0 ;i<tblCart.getItems().size();i++){
-            OrderTm orderTm = tblCart.getItems().get(i);
-            orderTmList.add(orderTm);
+        String customerId = cmbCustomerId.getValue();
+        String total = lblNetTotal.getText();
+        String qty = lblQty.getText();
+        List<OrderTm> orders = new ArrayList<>();
+        for (int i = 0 ; i<tblCart.getItems().size();i++){
+            orders.add(tblCart.getItems().get(i));
         }
-        orderBO.transaction(oId,odId,date,itemId);
-        new OrderDetailId();
-        new PlaceOrder();
+        orderBO.placeOrder(orders,customerId,total,qty);
 
-
-    }
-
-    private String createNextOrderDetailId(String current) {
-        if (current != null){
-            String[] split = current.split("OD");
-            int idNum = Integer.parseInt(split[1]);
-            return split[0] + ++idNum;
-        }
-        return "OD1";
     }
 
     private String createNextId(String currentId) {

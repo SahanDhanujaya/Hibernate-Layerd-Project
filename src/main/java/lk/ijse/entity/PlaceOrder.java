@@ -11,7 +11,6 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 public class PlaceOrder {
-    private OrderDetailId orderDetailId;
     private Orders orders;
     private int qty;
     private List<OrderTm>  list;

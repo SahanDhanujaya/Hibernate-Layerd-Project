@@ -11,6 +11,12 @@ import java.util.List;
 
 public class OrderDetailDAOImpl implements OrderDetailDAO {
     @Override
+    public boolean save(OrderDetails object, Session session) {
+        session.save(object);
+        return true;
+    }
+
+    @Override
     public boolean save(OrderDetails object) {
         return false;
     }
@@ -19,6 +25,7 @@ public class OrderDetailDAOImpl implements OrderDetailDAO {
     public boolean update(OrderDetails object) {
         return false;
     }
+
 
     @Override
     public boolean delete(OrderDetails value) {

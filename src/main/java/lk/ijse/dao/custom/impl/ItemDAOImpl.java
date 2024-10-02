@@ -31,6 +31,12 @@ public class ItemDAOImpl implements ItemDAO {
     }
 
     @Override
+    public boolean update(Session session, Item object) {
+        session.update(object);
+        return true;
+    }
+
+    @Override
     public boolean delete(Item value) {
         Session session = FactoryConfiguration.getInstance().getSession();
         Transaction transaction = session.beginTransaction();

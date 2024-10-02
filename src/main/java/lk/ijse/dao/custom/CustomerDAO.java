@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface CustomerDAO extends CrudDAO<Customer> {
     List<String> getIds();
-
     String getCurrentId();
+    Customer getObject(String value);
 }

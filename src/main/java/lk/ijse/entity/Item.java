@@ -1,6 +1,7 @@
 package lk.ijse.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
@@ -19,7 +20,7 @@ public class Item {
     private String name;
     private double price;
     private int qty;
-    @OneToMany(mappedBy = "item")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "item")
     private List<OrderDetails> orderDetails;
 
     public Item(String itemCode, String name, double price, int qty) {
